@@ -7,23 +7,34 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        bool Correct = false;
+        // creating variable to manage logic of application
+        bool CorrectData = false;
+        // variable to check user input
+
+        void backToMenu()
+        {
+            Correct = false;
+            CorrectData = true;
+            Console.Clear();
+            // going back to menu
+        }
+
         List<Employee> employees = new List<Employee>();
         // new list of employees
         employees.Add(new Employee() { Name = "Przemysław Czosnek", Position = "CEO", Salary = 45000 });
         // creation of CEO profile
 
-        bool Correct = false;
-        // creating variable to manage logic of application
         while (Correct == false)
         {
             Console.WriteLine("Application made by Jakub Podlaski, no. 123739 and Kacper Franke, no. 123727\n");
             int Menu = 0;
             // variable to manage selection of menu
-            Console.WriteLine("Menu\n1.Add employee\n2.Calculate salary\n3.Show list of employees\n4.Exit");
+            Console.WriteLine("Menu\n1.Add employee\n2.Remove employee\n3.Show list of employees\n4.Calculate salary\n5.Exit");
             Menu = int.Parse(Console.ReadLine());
             // reading selection from user
             Console.Clear();
-            if (Menu > 0 && Menu < 5)
+            if (Menu > 0 && Menu < 6)
             {
                 // checking if user picked correct number
                 Correct = true;
@@ -31,8 +42,7 @@ internal class Program
                 {
                     case 1:
                         {
-                            bool CorrectData = false;
-                            // variable to check user input
+                            CorrectData = false;
                             Console.WriteLine("Give full name of employee:");
                             string fullname = "";
                             // variable for name of new profile
@@ -117,10 +127,8 @@ internal class Program
                                 back = int.Parse(Console.ReadLine());
                                 if(back == 1)
                                 {
-                                    Correct = false;
-                                    CorrectData = true;
-                                    Console.Clear();
-                                    // going back to menu
+                                    backToMenu();
+                                    break;
                                 }
                                 if(back == 2)
                                 {
@@ -136,41 +144,36 @@ internal class Program
                         }
                     case 2:
                         {
-                            Console.WriteLine("Give full name of employee");
-                            string searchName = Console.ReadLine();
-                            // user input of searched person
-                            bool employeeFound = false;
-                            // variable to store data if person is found
-                            foreach (Employee emp in employees) {
-                                if (searchName == emp.Name)
+                            Console.WriteLine("Which employee would you like to remove? Give full name");
+                            string toRemove = Console.ReadLine();
+                            // user input, which profile to remove
+                            bool ifFound = false;
+                            // logic if profile is found
+                            for (int i = employees.Count - 1; i >= 0; i--)
+                            {
+                                if (employees[i].Name == toRemove)
                                 {
-                                    Console.WriteLine("Employee found!");
-                                    int bonus = 0;
-                                    Console.WriteLine("Specify percentage bonus amount, 0 means no bonus");
-                                    bonus = int.Parse(Console.ReadLine());
-                                    double salaryWithBonus = (double)(emp.Salary + (emp.Salary * bonus / 100));
-                                    Console.WriteLine("Calculated salary: " + salaryWithBonus);
-                                    employeeFound = true;
-                                    // if person is found, the application gets salary amount and lets user add bonus
+                                    // searching for matching name
+                                    employees.RemoveAt(i);
+                                    // removing profile at matching id
+                                    ifFound = true;
+                                    break;
                                 }
                             }
-                            if(!employeeFound)
+                            if (!ifFound)
                             {
                                 Console.WriteLine("Employee not found!");
-                                // if employee is not found
                             }
                             Console.WriteLine("\nDo you want to return to menu?\n1.Yes\n2.No");
                             int back = 0;
-                            bool CorrectData = false;
+                            CorrectData = false;
                             while (!CorrectData)
                             {
                                 back = int.Parse(Console.ReadLine());
                                 if (back == 1)
                                 {
-                                    Correct = false;
-                                    CorrectData = true;
-                                    Console.Clear();
-                                    // going back to menu
+                                    backToMenu();
+                                    break;
                                 }
                                 if (back == 2)
                                 {
@@ -184,6 +187,7 @@ internal class Program
                             }
                             break;
                         }
+                    
                     case 3:
                         {
                             foreach(Employee emp in employees)
@@ -192,16 +196,14 @@ internal class Program
                             }
                             Console.WriteLine("\nDo you want to return to menu?\n1.Yes\n2.No");
                             int back = 0;
-                            bool CorrectData = false;
+                            CorrectData = false;
                             while (!CorrectData)
                             {
                                 back = int.Parse(Console.ReadLine());
                                 if (back == 1)
                                 {
-                                    Correct = false;
-                                    CorrectData = true;
-                                    Console.Clear();
-                                    // going back to menu
+                                    backToMenu();
+                                    break;
                                 }
                                 if (back == 2)
                                 {
@@ -216,6 +218,55 @@ internal class Program
                             break;
                         }
                     case 4:
+                        {
+                            Console.WriteLine("Give full name of employee");
+                            string searchName = Console.ReadLine();
+                            // user input of searched person
+                            bool employeeFound = false;
+                            // variable to store data if person is found
+                            foreach (Employee emp in employees)
+                            {
+                                if (searchName == emp.Name)
+                                {
+                                    Console.WriteLine("Employee found!");
+                                    int bonus = 0;
+                                    Console.WriteLine("Specify percentage bonus amount, 0 means no bonus");
+                                    bonus = int.Parse(Console.ReadLine());
+                                    double salaryWithBonus = (double)(emp.Salary + (emp.Salary * bonus / 100));
+                                    Console.WriteLine("Calculated salary: " + salaryWithBonus);
+                                    employeeFound = true;
+                                    // if person is found, the application gets salary amount and lets user add bonus
+                                }
+                            }
+                            if (!employeeFound)
+                            {
+                                Console.WriteLine("Employee not found!");
+                                // if employee is not found
+                            }
+                            Console.WriteLine("\nDo you want to return to menu?\n1.Yes\n2.No");
+                            int back = 0;
+                            CorrectData = false;
+                            while (!CorrectData)
+                            {
+                                back = int.Parse(Console.ReadLine());
+                                if (back == 1)
+                                {
+                                    backToMenu();
+                                    break;
+                                }
+                                if (back == 2)
+                                {
+                                    CorrectData = true;
+                                    // exitting application
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Give correct number");
+                                }
+                            }
+                            break;
+                        }
+                    case 5:
                         {
                             break;
                             // exitting application
