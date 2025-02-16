@@ -8,33 +8,43 @@ internal class Program
     private static void Main(string[] args)
     {
         List<Employee> employees = new List<Employee>();
-
+        // new list of employees
         employees.Add(new Employee() { Name = "Przemysław Czosnek", Position = "CEO", Salary = 45000 });
+        // creation of CEO profile
 
         bool Correct = false;
+        // creating variable to manage logic of application
         while (Correct == false)
         {
             Console.WriteLine("Application made by Jakub Podlaski, no. 123739 and Kacper Franke, no. 123727\n");
             int Menu = 0;
+            // variable to manage selection of menu
             Console.WriteLine("Menu\n1.Add employee\n2.Calculate salary\n3.Show list of employees\n4.Exit");
             Menu = int.Parse(Console.ReadLine());
+            // reading selection from user
             Console.Clear();
             if (Menu > 0 && Menu < 5)
             {
+                // checking if user picked correct number
                 Correct = true;
                 switch (Menu)
                 {
                     case 1:
                         {
                             bool CorrectData = false;
+                            // variable to check user input
                             Console.WriteLine("Give full name of employee:");
                             string fullname = "";
-                            while (CorrectData == false)
+                            // variable for name of new profile
+                            while (!CorrectData)
                             {
                                 fullname = Console.ReadLine();
+                                // reading name from user
                                 if (fullname != null)
                                 {
+                                    // if username is not empty
                                     bool isExisting = false;
+                                    // variable to check if user already exists
                                     foreach (Employee emp in employees)
                                     {
                                         if (emp.Name == fullname)
@@ -42,15 +52,18 @@ internal class Program
                                             Console.WriteLine("Employee exists!\nGive different name");
                                             isExisting = true;
                                             break;
+                                            // if at least once name picked by user is matching already existing profile, bool is changed to true
                                         }
                                     }
                                     if(isExisting == true)
                                     {
                                         CorrectData = false;
+                                        // if profile already exists, app will ask again for name
                                     }
                                     else
                                     {
                                         CorrectData = true;
+                                        // otherwise will continue
                                     }
                                 }
                                 else
@@ -61,14 +74,16 @@ internal class Program
                             Console.WriteLine("Give position of employee (Clerk, Manager, Head Manager, CEO)");
                             CorrectData = false;
                             string position = "";
-                            while (CorrectData == false)
+                            while (!CorrectData)
                             {
                                 position = Console.ReadLine();
                                 string upperLetter = position[0].ToString().ToUpper();
                                 position = upperLetter + position.Substring(1);
+                                // making sure that every position will have same format
                                 if (position == "Clerk" || position == "Manager" || position == "Head manager" || position == "CEO")
                                 {
                                     CorrectData = true;
+                                    // checking if user wrote one of correct positions
                                 }
                                 else
                                 {
@@ -84,6 +99,7 @@ internal class Program
                                 if(salary == 0)
                                 {
                                     Console.WriteLine("Give correct amount");
+                                    // user cannot specify 0 amount for salary
                                 }
                                 else
                                 {
@@ -92,6 +108,7 @@ internal class Program
 
                             }
                             employees.Add(new Employee() { Name = fullname, Position = position, Salary = salary });
+                            // adding new employee of given data
                             Console.WriteLine("\nDo you want to return to menu?\n1.Yes\n2.No");
                             int back = 0;
                             CorrectData = false;
@@ -103,10 +120,12 @@ internal class Program
                                     Correct = false;
                                     CorrectData = true;
                                     Console.Clear();
+                                    // going back to menu
                                 }
                                 if(back == 2)
                                 {
                                     CorrectData = true;
+                                    // exitting application
                                 }
                                 else
                                 {
@@ -119,7 +138,9 @@ internal class Program
                         {
                             Console.WriteLine("Give full name of employee");
                             string searchName = Console.ReadLine();
+                            // user input of searched person
                             bool employeeFound = false;
+                            // variable to store data if person is found
                             foreach (Employee emp in employees) {
                                 if (searchName == emp.Name)
                                 {
@@ -130,11 +151,13 @@ internal class Program
                                     double salaryWithBonus = (double)(emp.Salary + (emp.Salary * bonus / 100));
                                     Console.WriteLine("Calculated salary: " + salaryWithBonus);
                                     employeeFound = true;
+                                    // if person is found, the application gets salary amount and lets user add bonus
                                 }
                             }
                             if(!employeeFound)
                             {
                                 Console.WriteLine("Employee not found!");
+                                // if employee is not found
                             }
                             Console.WriteLine("\nDo you want to return to menu?\n1.Yes\n2.No");
                             int back = 0;
@@ -147,10 +170,12 @@ internal class Program
                                     Correct = false;
                                     CorrectData = true;
                                     Console.Clear();
+                                    // going back to menu
                                 }
                                 if (back == 2)
                                 {
                                     CorrectData = true;
+                                    // exitting application
                                 }
                                 else
                                 {
@@ -176,10 +201,12 @@ internal class Program
                                     Correct = false;
                                     CorrectData = true;
                                     Console.Clear();
+                                    // going back to menu
                                 }
                                 if (back == 2)
                                 {
                                     CorrectData = true;
+                                    // exitting application
                                 }
                                 else
                                 {
@@ -191,6 +218,7 @@ internal class Program
                     case 4:
                         {
                             break;
+                            // exitting application
                         }
                 }
             }
